@@ -4,19 +4,19 @@
 
 (deftest parsing-test
   (testing "parsing empty input"
-    (is (empty? (:cells (parse [])))))
+    (is (empty? (:world (parse [])))))
   (testing "single empty string input"
-    (is (empty? (:cells (parse [""])))))
+    (is (empty? (:world (parse [""])))))
   (testing "single wall input"
-    (is (empty? (:cells (parse ["#"])))))
+    (is (empty? (:world (parse ["#"])))))
   (testing "single cell input"
-    (is (= {:cells #{[0 0]}} (parse ["."]))))
+    (is (= #{[0 0]} (:world (parse ["."])))))
   (testing "two cells in the same row"
-    (is (= #{[0 0] [1 0]} (:cells (parse [".."])))))
+    (is (= #{[0 0] [1 0]} (:world (parse [".."])))))
   (testing "cell and wall in the same row"
-    (is (= #{[1 0]} (:cells (parse ["#."])))))
+    (is (= #{[1 0]} (:world (parse ["#."])))))
   (testing "two cell in a column"
-    (is (= #{[0 0] [0 1]} (:cells (parse ["." "."])))))
+    (is (= #{[0 0] [0 1]} (:world (parse ["." "."])))))
 
   (testing "comples set of cell and walls"
     (let [input ["...##"
@@ -25,5 +25,16 @@
           expected #{[0 0] [1 0] [2 0]
                      [1 1] [4 1]
                      [2 2]}]
-      (is (= expected (:cells (parse input))))))
+      (is (= expected (:world (parse input))))))
+
+  (testing "reading start position"
+    (is (= [0 0] (:start (parse ["S"])))))
+  (testing "start postion is part of the world"
+    (is (= #{[0 0]} (:world (parse ["S"])))))
+
+  (testing "reading end position"
+    (is (= [0 0] (:end (parse ["E"])))))
+  (testing "end postion is part of the world"
+    (is (= #{[0 0]} (:world (parse ["E"])))))
+
 )
