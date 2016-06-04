@@ -49,6 +49,7 @@
          :right 3))))
 
 (defn arrow [[x y] direction]
+  (println direction)
   (q/fill 250 100 100)
   (let [angle (dir-to-angle direction)
         size tile-size
